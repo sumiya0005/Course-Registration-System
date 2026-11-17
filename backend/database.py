@@ -1,9 +1,14 @@
 
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-# SQLite database file
-DATABASE_URL = "sqlite:///./course_registration.db"
+# Use /tmp database on Vercel, local database during development
+if os.getenv("VERCEL"):
+    DATABASE_URL = "sqlite:////tmp/course_registration.db"
+else:
+    DATABASE_URL = "sqlite:///./course_registration.db"
 
 # Database engine তৈরি
 engine = create_engine(
