@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from database import engine, Base, get_db
 from models import Course
 from schemas import CourseCreate, CourseUpdate, CourseResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 # Database table তৈরি
 Base.metadata.create_all(bind=engine)
@@ -16,6 +17,14 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# Allow frontend to communicate with backend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Home route
 @app.get("/")
